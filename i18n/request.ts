@@ -1,9 +1,6 @@
 import { getRequestConfig } from 'next-intl/server'
 import { cookies } from 'next/headers'
-
-export const locales = ['zh', 'en'] as const
-export type Locale = (typeof locales)[number]
-export const defaultLocale: Locale = 'zh'
+import { locales, defaultLocale, type Locale } from './config'
 
 export default getRequestConfig(async ({ requestLocale }) => {
   // Try to get locale from request first
@@ -25,6 +22,6 @@ export default getRequestConfig(async ({ requestLocale }) => {
 
   return {
     locale,
-    messages: (await import(`./messages/${locale}.json`)).default,
+    messages: (await import(`../messages/${locale}.json`)).default,
   }
 })
