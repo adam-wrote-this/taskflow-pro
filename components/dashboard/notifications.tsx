@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { useLocale, useTranslations } from 'next-intl'
 import { createClient } from '@/lib/supabase/client'
 import type { Notification } from '@/lib/types'
 import { Button } from '@/components/ui/button'
@@ -16,7 +16,8 @@ import { cn } from '@/lib/utils'
 import Link from 'next/link'
 
 export function NotificationsPopover() {
-  const router = useRouter()
+  const t = useTranslations()
+  const locale = useLocale()
   const [notifications, setNotifications] = useState<Notification[]>([])
   const [unreadCount, setUnreadCount] = useState(0)
   const [isLoading, setIsLoading] = useState(true)
@@ -84,11 +85,19 @@ export function NotificationsPopover() {
     const diffHours = Math.floor(diffMs / 3600000)
     const diffDays = Math.floor(diffMs / 86400000)
 
-    if (diffMins < 1) return '刚刚'
-    if (diffMins < 60) return `${diffMins} 分钟前`
-    if (diffHours < 24) return `${diffHours} 小时前`
-    if (diffDays < 7) return `${diffDays} 天前`
-    return date.toLocaleDateString('zh-CN')
+    if (locale === 'zh') {
+      if (diffMins < 1) return '刚刚'
+      if (diffMins < 60) return `${diffMins} 分钟前`
+      if (diffHours < 24) return `${diffHours} 小时前`
+      if (diffDays < 7) return `${diffDays} 天前`
+      return date.toLocaleDateString('zh-CN')
+    } else {
+      if (diffMins < 1) return 'Just now'
+      if (diffMins < 60) return `${diffMins}m ago`
+      if (diffHours < 24) return `${diffHours}h ago`
+      if (diffDays < 7) return `${diffDays}d ago`
+      return date.toLocaleDateString('en-US')
+    }
   }
 
   return (
@@ -101,12 +110,12 @@ export function NotificationsPopover() {
               {unreadCount > 99 ? '99+' : unreadCount}
             </span>
           )}
-          <span className="sr-only">通知</span>
+          <span className="sr-only">{t('notifications.title')}</span>
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-80 p-0" align="end">
         <div className="flex items-center justify-between px-4 py-3 border-b border-border">
-          <h3 className="font-semibold">通知</h3>
+          <h3 className="font-semibold">{t('notifications.title')}</h3>
           {unreadCount > 0 && (
             <Button
               variant="ghost"
@@ -115,14 +124,14 @@ export function NotificationsPopover() {
               onClick={markAllAsRead}
             >
               <CheckCheck className="mr-1 h-3 w-3" />
-              全部已读
+              {t('notifications.markAllRead')}
             </Button>
           )}
         </div>
         <ScrollArea className="h-80">
           {isLoading ? (
             <div className="flex items-center justify-center py-8">
-              <span className="text-sm text-muted-foreground">加载中...</span>
+              <span className="text-sm text-muted-foreground">{t('common.loading')}</span>
             </div>
           ) : notifications.length > 0 ? (
             <div className="flex flex-col">
@@ -181,7 +190,7 @@ export function NotificationsPopover() {
           ) : (
             <div className="flex flex-col items-center justify-center py-8">
               <Bell className="h-8 w-8 text-muted-foreground mb-2" />
-              <p className="text-sm text-muted-foreground">暂无通知</p>
+              <p className="text-sm text-muted-foreground">{t('notifications.noNotifications')}</p>
             </div>
           )}
         </ScrollArea>

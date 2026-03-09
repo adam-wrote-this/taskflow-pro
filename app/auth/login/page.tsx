@@ -2,16 +2,19 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { useTranslations } from 'next-intl'
 import { signIn } from '../actions'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { CheckSquare, Loader2 } from 'lucide-react'
+import { LanguageSwitcher } from '@/components/language-switcher'
 
 export default function LoginPage() {
   const [error, setError] = useState<string | null>(null)
   const [isPending, setIsPending] = useState(false)
+  const t = useTranslations()
 
   async function handleSubmit(formData: FormData) {
     setIsPending(true)
@@ -26,7 +29,10 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background px-4">
+    <div className="min-h-screen flex items-center justify-center bg-background px-4 relative">
+      <div className="absolute top-4 right-4">
+        <LanguageSwitcher />
+      </div>
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <div className="flex items-center justify-center gap-2 mb-4">
@@ -35,8 +41,8 @@ export default function LoginPage() {
             </div>
             <span className="text-xl font-bold text-foreground">TaskFlow Pro</span>
           </div>
-          <CardTitle className="text-2xl">欢迎回来</CardTitle>
-          <CardDescription>登录您的账户以继续</CardDescription>
+          <CardTitle className="text-2xl">{t('auth.login.title')}</CardTitle>
+          <CardDescription>{t('auth.login.subtitle')}</CardDescription>
         </CardHeader>
         <CardContent>
           <form action={handleSubmit} className="flex flex-col gap-4">
@@ -47,7 +53,7 @@ export default function LoginPage() {
             )}
             
             <div className="flex flex-col gap-2">
-              <Label htmlFor="email">邮箱地址</Label>
+              <Label htmlFor="email">{t('auth.login.email')}</Label>
               <Input
                 id="email"
                 name="email"
@@ -59,7 +65,7 @@ export default function LoginPage() {
             </div>
             
             <div className="flex flex-col gap-2">
-              <Label htmlFor="password">密码</Label>
+              <Label htmlFor="password">{t('auth.login.password')}</Label>
               <Input
                 id="password"
                 name="password"
@@ -74,18 +80,18 @@ export default function LoginPage() {
               {isPending ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  登录中...
+                  {t('common.loading')}
                 </>
               ) : (
-                '登录'
+                t('auth.login.submit')
               )}
             </Button>
           </form>
           
           <div className="mt-6 text-center text-sm text-muted-foreground">
-            还没有账户？{' '}
+            {t('auth.login.noAccount')}{' '}
             <Link href="/auth/sign-up" className="text-primary hover:underline font-medium">
-              立即注册
+              {t('auth.login.signUp')}
             </Link>
           </div>
         </CardContent>
