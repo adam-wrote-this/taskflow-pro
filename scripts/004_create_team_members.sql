@@ -64,7 +64,7 @@ create policy "team_members_update" on public.team_members
     )
   );
 
--- RLS 策略：团队所有者或管理员可以移除成员
+-- RLS 策略：团队所有者或管理员可以移除成员，或用户自己退出
 create policy "team_members_delete" on public.team_members
   for delete using (
     exists (
@@ -78,5 +78,17 @@ create policy "team_members_delete" on public.team_members
       and tm.user_id = auth.uid()
       and tm.role in ('owner', 'admin')
     )
-    or user_id = auth.uid() -- 用户可以自己退出团队
+    or user_id = auth.uid()
+  );
+
+-- 更新 teams 表的查看策略，允许团队成员查看
+drop policy if exists "teams_select_owner" on public.teams;
+create policy "teams_select_member" on public.teams
+  for select using (
+    exists (
+      select 1 from public.team_members
+      where team_members.team_id = teams.id
+      and team_members.user_id = auth.uid()
+    )
+    or owner_id = auth.uid()
   );
