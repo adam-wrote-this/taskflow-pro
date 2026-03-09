@@ -1,0 +1,208 @@
+{
+  "common": {
+    "loading": "加载中...",
+    "save": "保存",
+    "cancel": "取消",
+    "delete": "删除",
+    "edit": "编辑",
+    "create": "创建",
+    "confirm": "确认",
+    "back": "返回",
+    "next": "下一步",
+    "previous": "上一步",
+    "search": "搜索",
+    "noData": "暂无数据",
+    "success": "操作成功",
+    "error": "操作失败",
+    "required": "必填",
+    "optional": "选填"
+  },
+  "nav": {
+    "dashboard": "仪表盘",
+    "projects": "项目",
+    "teams": "团队",
+    "settings": "设置",
+    "notifications": "通知",
+    "logout": "退出登录",
+    "myTasks": "我的任务"
+  },
+  "landing": {
+    "title": "让团队协作更高效",
+    "subtitle": "TaskFlow Pro 是现代化的项目管理工具，帮助团队轻松追踪任务进度、协同工作，提升整体生产力。",
+    "cta": "免费开始使用",
+    "login": "登录",
+    "features": {
+      "title": "核心功能",
+      "kanban": {
+        "title": "看板视图",
+        "description": "直观的拖拽式任务看板，让任务状态一目了然"
+      },
+      "team": {
+        "title": "团队协作",
+        "description": "邀请团队成员，分配任务，实时同步工作进度"
+      },
+      "analytics": {
+        "title": "数据分析",
+        "description": "可视化的项目统计，帮助您做出更明智的决策"
+      }
+    },
+    "stats": {
+      "teams": "活跃团队",
+      "tasks": "已完成任务",
+      "satisfaction": "用户满意度"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "欢迎回来",
+      "subtitle": "登录您的账户以继续",
+      "email": "邮箱地址",
+      "password": "密码",
+      "submit": "登录",
+      "noAccount": "还没有账户？",
+      "signUp": "立即注册",
+      "forgotPassword": "忘记密码？"
+    },
+    "signUp": {
+      "title": "创建账户",
+      "subtitle": "开始您的高效协作之旅",
+      "fullName": "姓名",
+      "email": "邮箱地址",
+      "password": "密码",
+      "confirmPassword": "确认密码",
+      "submit": "注册",
+      "hasAccount": "已有账户？",
+      "login": "立即登录",
+      "terms": "注册即表示您同意我们的服务条款和隐私政策"
+    },
+    "signUpSuccess": {
+      "title": "注册成功！",
+      "subtitle": "我们已向您的邮箱发送了验证邮件，请查收并点击链接完成验证。",
+      "backToLogin": "返回登录"
+    },
+    "error": {
+      "title": "出错了",
+      "subtitle": "认证过程中发生错误",
+      "tryAgain": "重试",
+      "backToLogin": "返回登录"
+    }
+  },
+  "dashboard": {
+    "welcome": "欢迎回来",
+    "overview": "概览",
+    "totalTasks": "总任务数",
+    "completedTasks": "已完成",
+    "inProgress": "进行中",
+    "overdue": "已逾期",
+    "recentActivity": "最近活动",
+    "myTasks": "我的任务",
+    "activeProjects": "活跃项目",
+    "taskProgress": "任务进度",
+    "teamActivity": "团队动态",
+    "viewAll": "查看全部"
+  },
+  "teams": {
+    "title": "团队管理",
+    "myTeams": "我的团队",
+    "createTeam": "创建团队",
+    "newTeam": "新建团队",
+    "teamName": "团队名称",
+    "teamDescription": "团队描述",
+    "members": "成员",
+    "role": "角色",
+    "owner": "所有者",
+    "admin": "管理员",
+    "member": "成员",
+    "inviteMember": "邀请成员",
+    "inviteByEmail": "通过邮箱邀请",
+    "removeMember": "移除成员",
+    "changeRole": "更改角色",
+    "leaveTeam": "离开团队",
+    "deleteTeam": "删除团队",
+    "noTeams": "您还没有加入任何团队",
+    "createFirst": "创建您的第一个团队",
+    "projects": "个项目",
+    "memberCount": "名成员"
+  },
+  "projects": {
+    "title": "项目管理",
+    "myProjects": "我的项目",
+    "createProject": "创建项目",
+    "newProject": "新建项目",
+    "projectName": "项目名称",
+    "projectDescription": "项目描述",
+    "selectTeam": "选择团队",
+    "status": "状态",
+    "active": "进行中",
+    "completed": "已完成",
+    "archived": "已归档",
+    "noProjects": "暂无项目",
+    "createFirst": "创建您的第一个项目",
+    "tasks": "个任务",
+    "progress": "进度"
+  },
+  "tasks": {
+    "title": "任务",
+    "createTask": "创建任务",
+    "newTask": "新建任务",
+    "taskTitle": "任务标题",
+    "taskDescription": "任务描述",
+    "assignee": "负责人",
+    "dueDate": "截止日期",
+    "priority": "优先级",
+    "status": "状态",
+    "comments": "评论",
+    "attachments": "附件",
+    "labels": "标签",
+    "priorities": {
+      "low": "低",
+      "medium": "中",
+      "high": "高",
+      "urgent": "紧急"
+    },
+    "statuses": {
+      "backlog": "待办池",
+      "todo": "待处理",
+      "inProgress": "进行中",
+      "inReview": "审核中",
+      "done": "已完成"
+    },
+    "noTasks": "暂无任务",
+    "addTask": "添加任务",
+    "editTask": "编辑任务",
+    "deleteTask": "删除任务",
+    "moveTask": "移动任务",
+    "unassigned": "未分配"
+  },
+  "settings": {
+    "title": "设置",
+    "profile": "个人资料",
+    "account": "账户设置",
+    "notifications": "通知设置",
+    "appearance": "外观",
+    "language": "语言",
+    "fullName": "姓名",
+    "email": "邮箱",
+    "avatar": "头像",
+    "changePassword": "修改密码",
+    "currentPassword": "当前密码",
+    "newPassword": "新密码",
+    "confirmNewPassword": "确认新密码",
+    "theme": "主题",
+    "light": "浅色",
+    "dark": "深色",
+    "system": "跟随系统",
+    "saveChanges": "保存更改",
+    "saved": "已保存"
+  },
+  "notifications": {
+    "title": "通知",
+    "markAllRead": "全部标为已读",
+    "noNotifications": "暂无通知",
+    "taskAssigned": "您被分配了一个新任务",
+    "taskCompleted": "任务已完成",
+    "taskComment": "有人评论了您的任务",
+    "teamInvite": "您被邀请加入团队",
+    "projectUpdate": "项目有新的更新"
+  }
+}

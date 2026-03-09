@@ -1,13 +1,15 @@
 import { createClient } from '@/lib/supabase/server'
+import { getTranslations } from 'next-intl/server'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { FolderKanban, CheckCircle2, Clock, AlertCircle, Plus, Users, ArrowRight } from 'lucide-react'
 import { TASK_STATUS_CONFIG, TASK_PRIORITY_CONFIG } from '@/lib/types'
-import type { Task, Project, Team } from '@/lib/types'
+import type { Task, Project } from '@/lib/types'
 
 export default async function DashboardPage() {
   const supabase = await createClient()
+  const t = await getTranslations()
   
   const { data: { user } } = await supabase.auth.getUser()
   
@@ -60,36 +62,32 @@ export default async function DashboardPage() {
     <div className="flex flex-col gap-6">
       {/* Welcome section */}
       <div>
-        <h1 className="text-2xl font-bold text-foreground">欢迎回来</h1>
-        <p className="text-muted-foreground">以下是您的任务和项目概览</p>
+        <h1 className="text-2xl font-bold text-foreground">{t('dashboard.welcome')}</h1>
+        <p className="text-muted-foreground">{t('dashboard.overview')}</p>
       </div>
 
       {/* Stats cards */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <StatCard
-          title="待完成任务"
+          title={t('dashboard.totalTasks')}
           value={totalTasks}
           icon={<FolderKanban className="h-4 w-4" />}
-          description="所有未完成的任务"
         />
         <StatCard
-          title="进行中"
+          title={t('dashboard.inProgress')}
           value={inProgressTasks}
           icon={<Clock className="h-4 w-4" />}
-          description="正在处理的任务"
         />
         <StatCard
-          title="高优先级"
+          title={t('tasks.priorities.high')}
           value={urgentTasks}
           icon={<AlertCircle className="h-4 w-4" />}
-          description="需要优先处理"
           variant="warning"
         />
         <StatCard
-          title="即将到期"
+          title={t('dashboard.overdue')}
           value={dueSoonTasks}
           icon={<CheckCircle2 className="h-4 w-4" />}
-          description="3天内到期"
           variant="danger"
         />
       </div>
@@ -99,12 +97,12 @@ export default async function DashboardPage() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between">
             <div>
-              <CardTitle>我的任务</CardTitle>
-              <CardDescription>分配给您的待完成任务</CardDescription>
+              <CardTitle>{t('dashboard.myTasks')}</CardTitle>
+              <CardDescription>{t('tasks.noTasks')}</CardDescription>
             </div>
             <Button variant="outline" size="sm" asChild>
               <Link href="/dashboard/projects">
-                查看全部
+                {t('dashboard.viewAll')}
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
@@ -119,8 +117,7 @@ export default async function DashboardPage() {
             ) : (
               <EmptyState
                 icon={<CheckCircle2 className="h-8 w-8" />}
-                title="暂无任务"
-                description="您还没有任何待完成的任务"
+                title={t('tasks.noTasks')}
               />
             )}
           </CardContent>
@@ -130,12 +127,12 @@ export default async function DashboardPage() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between">
             <div>
-              <CardTitle>活跃项目</CardTitle>
-              <CardDescription>您参与的项目</CardDescription>
+              <CardTitle>{t('dashboard.activeProjects')}</CardTitle>
+              <CardDescription>{t('projects.myProjects')}</CardDescription>
             </div>
             <Button variant="outline" size="sm" asChild>
               <Link href="/dashboard/projects">
-                查看全部
+                {t('dashboard.viewAll')}
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
@@ -150,13 +147,12 @@ export default async function DashboardPage() {
             ) : (
               <EmptyState
                 icon={<FolderKanban className="h-8 w-8" />}
-                title="暂无项目"
-                description="创建或加入一个团队来开始项目"
+                title={t('projects.noProjects')}
                 action={
                   <Button asChild size="sm">
                     <Link href="/dashboard/teams/new">
                       <Plus className="mr-2 h-4 w-4" />
-                      创建团队
+                      {t('teams.createTeam')}
                     </Link>
                   </Button>
                 }
@@ -173,14 +169,14 @@ export default async function DashboardPage() {
             <div className="flex items-center justify-center w-12 h-12 rounded-full bg-primary/10 mb-4">
               <Users className="h-6 w-6 text-primary" />
             </div>
-            <h3 className="text-lg font-semibold mb-2">开始使用 TaskFlow Pro</h3>
+            <h3 className="text-lg font-semibold mb-2">TaskFlow Pro</h3>
             <p className="text-muted-foreground text-center mb-4 max-w-md">
-              创建您的第一个团队，邀请成员，开始高效协作
+              {t('teams.createFirst')}
             </p>
             <Button asChild>
               <Link href="/dashboard/teams/new">
                 <Plus className="mr-2 h-4 w-4" />
-                创建团队
+                {t('teams.createTeam')}
               </Link>
             </Button>
           </CardContent>
@@ -194,13 +190,11 @@ function StatCard({
   title, 
   value, 
   icon, 
-  description,
   variant = 'default'
 }: { 
   title: string
   value: number
   icon: React.ReactNode
-  description: string
   variant?: 'default' | 'warning' | 'danger'
 }) {
   const variantStyles = {
@@ -217,7 +211,6 @@ function StatCard({
       </CardHeader>
       <CardContent>
         <div className="text-2xl font-bold">{value}</div>
-        <p className="text-xs text-muted-foreground">{description}</p>
       </CardContent>
     </Card>
   )
@@ -275,20 +268,17 @@ function ProjectItem({ project }: { project: Project }) {
 function EmptyState({ 
   icon, 
   title, 
-  description,
   action 
 }: { 
   icon: React.ReactNode
   title: string
-  description: string
   action?: React.ReactNode
 }) {
   return (
     <div className="flex flex-col items-center justify-center py-8 text-center">
       <div className="text-muted-foreground mb-3">{icon}</div>
       <h4 className="font-medium mb-1">{title}</h4>
-      <p className="text-sm text-muted-foreground mb-4">{description}</p>
-      {action}
+      {action && <div className="mt-2">{action}</div>}
     </div>
   )
 }

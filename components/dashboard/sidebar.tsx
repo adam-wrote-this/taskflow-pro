@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import { cn } from '@/lib/utils'
 import type { User } from '@supabase/supabase-js'
 import type { Profile, Team } from '@/lib/types'
@@ -28,16 +29,17 @@ interface DashboardSidebarProps {
   teams: Team[]
 }
 
-const mainNavItems = [
-  { href: '/dashboard', label: '仪表盘', icon: LayoutDashboard },
-  { href: '/dashboard/projects', label: '项目', icon: FolderKanban },
-  { href: '/dashboard/teams', label: '团队', icon: Users },
-  { href: '/dashboard/settings', label: '设置', icon: Settings },
-]
-
 export function DashboardSidebar({ profile, teams }: DashboardSidebarProps) {
   const pathname = usePathname()
   const [teamsOpen, setTeamsOpen] = useState(true)
+  const t = useTranslations()
+
+  const mainNavItems = [
+    { href: '/dashboard', label: t('nav.dashboard'), icon: LayoutDashboard },
+    { href: '/dashboard/projects', label: t('nav.projects'), icon: FolderKanban },
+    { href: '/dashboard/teams', label: t('nav.teams'), icon: Users },
+    { href: '/dashboard/settings', label: t('nav.settings'), icon: Settings },
+  ]
 
   return (
     <>
@@ -83,7 +85,7 @@ export function DashboardSidebar({ profile, teams }: DashboardSidebarProps) {
             <div className="mt-6">
               <Collapsible open={teamsOpen} onOpenChange={setTeamsOpen}>
                 <CollapsibleTrigger className="flex w-full items-center justify-between px-3 py-2 text-xs font-semibold uppercase tracking-wider text-sidebar-foreground/50">
-                  我的团队
+                  {t('teams.myTeams')}
                   <ChevronDown className={cn(
                     "h-4 w-4 transition-transform",
                     teamsOpen && "rotate-180"
@@ -110,7 +112,7 @@ export function DashboardSidebar({ profile, teams }: DashboardSidebarProps) {
                     ))
                   ) : (
                     <p className="px-3 py-2 text-xs text-sidebar-foreground/50">
-                      还没有加入任何团队
+                      {t('teams.noTeams')}
                     </p>
                   )}
                   <Button
@@ -121,7 +123,7 @@ export function DashboardSidebar({ profile, teams }: DashboardSidebarProps) {
                   >
                     <Link href="/dashboard/teams/new">
                       <Plus className="h-4 w-4" />
-                      创建团队
+                      {t('teams.createTeam')}
                     </Link>
                   </Button>
                 </CollapsibleContent>
@@ -137,7 +139,7 @@ export function DashboardSidebar({ profile, teams }: DashboardSidebarProps) {
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium text-sidebar-foreground truncate">
-                  {profile?.full_name || '用户'}
+                  {profile?.full_name || t('common.noData')}
                 </p>
                 <p className="text-xs text-sidebar-foreground/50 truncate">
                   {profile?.email}

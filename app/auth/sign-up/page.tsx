@@ -2,16 +2,19 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { useTranslations } from 'next-intl'
 import { signUp } from '../actions'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { CheckSquare, Loader2 } from 'lucide-react'
+import { LanguageSwitcher } from '@/components/language-switcher'
 
 export default function SignUpPage() {
   const [error, setError] = useState<string | null>(null)
   const [isPending, setIsPending] = useState(false)
+  const t = useTranslations()
 
   async function handleSubmit(formData: FormData) {
     setIsPending(true)
@@ -26,7 +29,10 @@ export default function SignUpPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background px-4">
+    <div className="min-h-screen flex items-center justify-center bg-background px-4 relative">
+      <div className="absolute top-4 right-4">
+        <LanguageSwitcher />
+      </div>
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <div className="flex items-center justify-center gap-2 mb-4">
@@ -35,8 +41,8 @@ export default function SignUpPage() {
             </div>
             <span className="text-xl font-bold text-foreground">TaskFlow Pro</span>
           </div>
-          <CardTitle className="text-2xl">创建账户</CardTitle>
-          <CardDescription>开始使用 TaskFlow Pro 管理您的任务</CardDescription>
+          <CardTitle className="text-2xl">{t('auth.signUp.title')}</CardTitle>
+          <CardDescription>{t('auth.signUp.subtitle')}</CardDescription>
         </CardHeader>
         <CardContent>
           <form action={handleSubmit} className="flex flex-col gap-4">
@@ -47,19 +53,19 @@ export default function SignUpPage() {
             )}
             
             <div className="flex flex-col gap-2">
-              <Label htmlFor="fullName">姓名</Label>
+              <Label htmlFor="fullName">{t('auth.signUp.fullName')}</Label>
               <Input
                 id="fullName"
                 name="fullName"
                 type="text"
-                placeholder="张三"
+                placeholder="John Doe"
                 required
                 autoComplete="name"
               />
             </div>
             
             <div className="flex flex-col gap-2">
-              <Label htmlFor="email">邮箱地址</Label>
+              <Label htmlFor="email">{t('auth.signUp.email')}</Label>
               <Input
                 id="email"
                 name="email"
@@ -71,7 +77,7 @@ export default function SignUpPage() {
             </div>
             
             <div className="flex flex-col gap-2">
-              <Label htmlFor="password">密码</Label>
+              <Label htmlFor="password">{t('auth.signUp.password')}</Label>
               <Input
                 id="password"
                 name="password"
@@ -81,25 +87,24 @@ export default function SignUpPage() {
                 minLength={6}
                 autoComplete="new-password"
               />
-              <p className="text-xs text-muted-foreground">密码至少需要 6 个字符</p>
             </div>
             
             <Button type="submit" className="w-full" disabled={isPending}>
               {isPending ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  创建中...
+                  {t('common.loading')}
                 </>
               ) : (
-                '创建账户'
+                t('auth.signUp.submit')
               )}
             </Button>
           </form>
           
           <div className="mt-6 text-center text-sm text-muted-foreground">
-            已有账户？{' '}
+            {t('auth.signUp.hasAccount')}{' '}
             <Link href="/auth/login" className="text-primary hover:underline font-medium">
-              立即登录
+              {t('auth.signUp.login')}
             </Link>
           </div>
         </CardContent>

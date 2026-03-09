@@ -1,0 +1,208 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "confirm": "Confirm",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "search": "Search",
+    "noData": "No data",
+    "success": "Success",
+    "error": "Error",
+    "required": "Required",
+    "optional": "Optional"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "projects": "Projects",
+    "teams": "Teams",
+    "settings": "Settings",
+    "notifications": "Notifications",
+    "logout": "Log out",
+    "myTasks": "My Tasks"
+  },
+  "landing": {
+    "title": "Make Team Collaboration More Efficient",
+    "subtitle": "TaskFlow Pro is a modern project management tool that helps teams easily track task progress, collaborate, and boost overall productivity.",
+    "cta": "Get Started Free",
+    "login": "Log in",
+    "features": {
+      "title": "Core Features",
+      "kanban": {
+        "title": "Kanban View",
+        "description": "Intuitive drag-and-drop task board for clear task status visibility"
+      },
+      "team": {
+        "title": "Team Collaboration",
+        "description": "Invite team members, assign tasks, and sync work progress in real-time"
+      },
+      "analytics": {
+        "title": "Data Analytics",
+        "description": "Visual project statistics to help you make smarter decisions"
+      }
+    },
+    "stats": {
+      "teams": "Active Teams",
+      "tasks": "Tasks Completed",
+      "satisfaction": "User Satisfaction"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Welcome Back",
+      "subtitle": "Log in to your account to continue",
+      "email": "Email Address",
+      "password": "Password",
+      "submit": "Log in",
+      "noAccount": "Don't have an account?",
+      "signUp": "Sign up",
+      "forgotPassword": "Forgot password?"
+    },
+    "signUp": {
+      "title": "Create Account",
+      "subtitle": "Start your efficient collaboration journey",
+      "fullName": "Full Name",
+      "email": "Email Address",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "submit": "Sign up",
+      "hasAccount": "Already have an account?",
+      "login": "Log in",
+      "terms": "By signing up, you agree to our Terms of Service and Privacy Policy"
+    },
+    "signUpSuccess": {
+      "title": "Registration Successful!",
+      "subtitle": "We've sent a verification email to your inbox. Please check and click the link to complete verification.",
+      "backToLogin": "Back to Login"
+    },
+    "error": {
+      "title": "Something went wrong",
+      "subtitle": "An error occurred during authentication",
+      "tryAgain": "Try Again",
+      "backToLogin": "Back to Login"
+    }
+  },
+  "dashboard": {
+    "welcome": "Welcome back",
+    "overview": "Overview",
+    "totalTasks": "Total Tasks",
+    "completedTasks": "Completed",
+    "inProgress": "In Progress",
+    "overdue": "Overdue",
+    "recentActivity": "Recent Activity",
+    "myTasks": "My Tasks",
+    "activeProjects": "Active Projects",
+    "taskProgress": "Task Progress",
+    "teamActivity": "Team Activity",
+    "viewAll": "View All"
+  },
+  "teams": {
+    "title": "Team Management",
+    "myTeams": "My Teams",
+    "createTeam": "Create Team",
+    "newTeam": "New Team",
+    "teamName": "Team Name",
+    "teamDescription": "Team Description",
+    "members": "Members",
+    "role": "Role",
+    "owner": "Owner",
+    "admin": "Admin",
+    "member": "Member",
+    "inviteMember": "Invite Member",
+    "inviteByEmail": "Invite by Email",
+    "removeMember": "Remove Member",
+    "changeRole": "Change Role",
+    "leaveTeam": "Leave Team",
+    "deleteTeam": "Delete Team",
+    "noTeams": "You haven't joined any teams yet",
+    "createFirst": "Create your first team",
+    "projects": "projects",
+    "memberCount": "members"
+  },
+  "projects": {
+    "title": "Project Management",
+    "myProjects": "My Projects",
+    "createProject": "Create Project",
+    "newProject": "New Project",
+    "projectName": "Project Name",
+    "projectDescription": "Project Description",
+    "selectTeam": "Select Team",
+    "status": "Status",
+    "active": "Active",
+    "completed": "Completed",
+    "archived": "Archived",
+    "noProjects": "No projects yet",
+    "createFirst": "Create your first project",
+    "tasks": "tasks",
+    "progress": "Progress"
+  },
+  "tasks": {
+    "title": "Tasks",
+    "createTask": "Create Task",
+    "newTask": "New Task",
+    "taskTitle": "Task Title",
+    "taskDescription": "Task Description",
+    "assignee": "Assignee",
+    "dueDate": "Due Date",
+    "priority": "Priority",
+    "status": "Status",
+    "comments": "Comments",
+    "attachments": "Attachments",
+    "labels": "Labels",
+    "priorities": {
+      "low": "Low",
+      "medium": "Medium",
+      "high": "High",
+      "urgent": "Urgent"
+    },
+    "statuses": {
+      "backlog": "Backlog",
+      "todo": "To Do",
+      "inProgress": "In Progress",
+      "inReview": "In Review",
+      "done": "Done"
+    },
+    "noTasks": "No tasks yet",
+    "addTask": "Add Task",
+    "editTask": "Edit Task",
+    "deleteTask": "Delete Task",
+    "moveTask": "Move Task",
+    "unassigned": "Unassigned"
+  },
+  "settings": {
+    "title": "Settings",
+    "profile": "Profile",
+    "account": "Account Settings",
+    "notifications": "Notification Settings",
+    "appearance": "Appearance",
+    "language": "Language",
+    "fullName": "Full Name",
+    "email": "Email",
+    "avatar": "Avatar",
+    "changePassword": "Change Password",
+    "currentPassword": "Current Password",
+    "newPassword": "New Password",
+    "confirmNewPassword": "Confirm New Password",
+    "theme": "Theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System",
+    "saveChanges": "Save Changes",
+    "saved": "Saved"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "markAllRead": "Mark all as read",
+    "noNotifications": "No notifications",
+    "taskAssigned": "You have been assigned a new task",
+    "taskCompleted": "Task completed",
+    "taskComment": "Someone commented on your task",
+    "teamInvite": "You have been invited to join a team",
+    "projectUpdate": "Project has new updates"
+  }
+}

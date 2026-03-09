@@ -1,14 +1,16 @@
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
+import { NextIntlClientProvider } from 'next-intl'
+import { getLocale, getMessages } from 'next-intl/server'
 import './globals.css'
 
 const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'TaskFlow Pro - DevOps 全流程 SaaS 平台',
-  description: '现代化的项目管理工具，帮助团队轻松追踪任务进度、协同工作，提升整体生产力。',
+  title: 'TaskFlow Pro - DevOps SaaS Platform',
+  description: 'Modern project management tool that helps teams easily track task progress, collaborate, and boost overall productivity.',
   generator: 'TaskFlow Pro',
   icons: {
     icon: [
@@ -29,15 +31,20 @@ export const metadata: Metadata = {
   },
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const locale = await getLocale()
+  const messages = await getMessages()
+
   return (
-    <html lang="en">
+    <html lang={locale}>
       <body className="font-sans antialiased">
-        {children}
+        <NextIntlClientProvider messages={messages}>
+          {children}
+        </NextIntlClientProvider>
         <Analytics />
       </body>
     </html>

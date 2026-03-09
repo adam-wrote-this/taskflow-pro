@@ -1,8 +1,14 @@
+'use client'
+
 import Link from 'next/link'
+import { useTranslations } from 'next-intl'
 import { Button } from '@/components/ui/button'
 import { CheckSquare, Users, FolderKanban, BarChart3, Zap, Shield, ArrowRight } from 'lucide-react'
+import { LanguageSwitcher } from '@/components/language-switcher'
 
 export default function HomePage() {
+  const t = useTranslations()
+
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
@@ -15,11 +21,12 @@ export default function HomePage() {
             <span className="text-lg font-bold text-foreground">TaskFlow Pro</span>
           </div>
           <div className="flex items-center gap-3">
+            <LanguageSwitcher />
             <Button variant="ghost" asChild>
-              <Link href="/auth/login">登录</Link>
+              <Link href="/auth/login">{t('landing.login')}</Link>
             </Button>
             <Button asChild>
-              <Link href="/auth/sign-up">免费开始</Link>
+              <Link href="/auth/sign-up">{t('landing.cta')}</Link>
             </Button>
           </div>
         </div>
@@ -30,25 +37,23 @@ export default function HomePage() {
         <div className="container mx-auto px-4 text-center">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">
             <Zap className="w-4 h-4" />
-            DevOps 全流程管理平台
+            DevOps SaaS Platform
           </div>
           <h1 className="text-4xl lg:text-6xl font-bold text-foreground mb-6 text-balance">
-            让团队协作更高效
-            <br />
-            <span className="text-primary">任务管理更简单</span>
+            {t('landing.title')}
           </h1>
           <p className="text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 text-pretty">
-            TaskFlow Pro 是一款现代化的项目管理工具，帮助团队轻松追踪任务进度、协同工作，提升整体生产力。
+            {t('landing.subtitle')}
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Button size="lg" asChild>
               <Link href="/auth/sign-up">
-                免费开始使用
+                {t('landing.cta')}
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Link>
             </Button>
             <Button size="lg" variant="outline" asChild>
-              <Link href="/auth/login">已有账户？登录</Link>
+              <Link href="/auth/login">{t('landing.login')}</Link>
             </Button>
           </div>
         </div>
@@ -59,42 +64,39 @@ export default function HomePage() {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-4">
-              强大的功能，简洁的体验
+              {t('landing.features.title')}
             </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              TaskFlow Pro 提供您团队所需的一切工具
-            </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             <FeatureCard
               icon={<FolderKanban className="w-6 h-6" />}
-              title="看板管理"
-              description="可视化任务流程，拖拽式操作，轻松管理任务状态和优先级"
+              title={t('landing.features.kanban.title')}
+              description={t('landing.features.kanban.description')}
             />
             <FeatureCard
               icon={<Users className="w-6 h-6" />}
-              title="团队协作"
-              description="创建团队、邀请成员、分配角色，让协作更加顺畅"
+              title={t('landing.features.team.title')}
+              description={t('landing.features.team.description')}
             />
             <FeatureCard
               icon={<BarChart3 className="w-6 h-6" />}
-              title="数据仪表盘"
-              description="实时追踪项目进度，可视化数据分析，洞察团队效率"
+              title={t('landing.features.analytics.title')}
+              description={t('landing.features.analytics.description')}
             />
             <FeatureCard
               icon={<Zap className="w-6 h-6" />}
-              title="实时更新"
-              description="任务状态实时同步，评论通知即时推送"
+              title="Real-time Updates"
+              description="Task status syncs in real-time, instant notification delivery"
             />
             <FeatureCard
               icon={<Shield className="w-6 h-6" />}
-              title="安全可靠"
-              description="企业级数据安全，行级权限控制，保护您的数据"
+              title="Secure & Reliable"
+              description="Enterprise-grade data security with row-level access control"
             />
             <FeatureCard
               icon={<CheckSquare className="w-6 h-6" />}
-              title="简洁易用"
-              description="清晰的界面设计，零学习成本，快速上手使用"
+              title="Simple & Intuitive"
+              description="Clean interface design, zero learning curve"
             />
           </div>
         </div>
@@ -103,15 +105,15 @@ export default function HomePage() {
       {/* CTA Section */}
       <section className="py-20">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-4">
-            准备好提升您的团队效率了吗？
+          <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-4 text-balance">
+            Ready to boost your team productivity?
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
-            立即注册，免费体验 TaskFlow Pro 的全部功能
+            Sign up now and experience all features of TaskFlow Pro for free
           </p>
           <Button size="lg" asChild>
             <Link href="/auth/sign-up">
-              免费开始
+              {t('landing.cta')}
               <ArrowRight className="ml-2 w-4 h-4" />
             </Link>
           </Button>
@@ -127,7 +129,7 @@ export default function HomePage() {
             </div>
             <span className="font-semibold text-foreground">TaskFlow Pro</span>
           </div>
-          <p>&copy; 2024 TaskFlow Pro. 保留所有权利。</p>
+          <p>&copy; 2024 TaskFlow Pro. All rights reserved.</p>
         </div>
       </footer>
     </div>

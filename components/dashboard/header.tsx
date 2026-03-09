@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import type { User } from '@supabase/supabase-js'
 import type { Profile } from '@/lib/types'
 import { signOut } from '@/app/auth/actions'
@@ -31,6 +32,7 @@ import {
   Users,
 } from 'lucide-react'
 import { NotificationsPopover } from './notifications'
+import { LanguageSwitcher } from '@/components/language-switcher'
 import { cn } from '@/lib/utils'
 
 interface DashboardHeaderProps {
@@ -38,16 +40,17 @@ interface DashboardHeaderProps {
   profile: Profile | null
 }
 
-const mobileNavItems = [
-  { href: '/dashboard', label: '仪表盘', icon: LayoutDashboard },
-  { href: '/dashboard/projects', label: '项目', icon: FolderKanban },
-  { href: '/dashboard/teams', label: '团队', icon: Users },
-  { href: '/dashboard/settings', label: '设置', icon: Settings },
-]
-
 export function DashboardHeader({ profile }: DashboardHeaderProps) {
   const pathname = usePathname()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const t = useTranslations()
+
+  const mobileNavItems = [
+    { href: '/dashboard', label: t('nav.dashboard'), icon: LayoutDashboard },
+    { href: '/dashboard/projects', label: t('nav.projects'), icon: FolderKanban },
+    { href: '/dashboard/teams', label: t('nav.teams'), icon: Users },
+    { href: '/dashboard/settings', label: t('nav.settings'), icon: Settings },
+  ]
 
   return (
     <header className="sticky top-0 z-30 h-16 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border">
@@ -57,7 +60,7 @@ export function DashboardHeader({ profile }: DashboardHeaderProps) {
           <SheetTrigger asChild>
             <Button variant="ghost" size="icon" className="lg:hidden">
               <Menu className="h-5 w-5" />
-              <span className="sr-only">打开菜单</span>
+              <span className="sr-only">Open menu</span>
             </Button>
           </SheetTrigger>
           <SheetContent side="left" className="w-64 p-0 bg-sidebar">
@@ -100,7 +103,7 @@ export function DashboardHeader({ profile }: DashboardHeaderProps) {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <input
               type="search"
-              placeholder="搜索项目、任务..."
+              placeholder={t('common.search')}
               className="w-full h-9 pl-9 pr-4 rounded-lg border border-input bg-background text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
             />
           </div>
@@ -116,6 +119,9 @@ export function DashboardHeader({ profile }: DashboardHeaderProps) {
 
         {/* Right section */}
         <div className="flex items-center gap-2">
+          {/* Language Switcher */}
+          <LanguageSwitcher />
+
           {/* Notifications */}
           <NotificationsPopover />
 
@@ -130,20 +136,20 @@ export function DashboardHeader({ profile }: DashboardHeaderProps) {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56">
               <div className="px-2 py-1.5">
-                <p className="text-sm font-medium">{profile?.full_name || '用户'}</p>
+                <p className="text-sm font-medium">{profile?.full_name || t('common.noData')}</p>
                 <p className="text-xs text-muted-foreground">{profile?.email}</p>
               </div>
               <DropdownMenuSeparator />
               <DropdownMenuItem asChild>
                 <Link href="/dashboard/settings" className="cursor-pointer">
                   <UserIcon className="mr-2 h-4 w-4" />
-                  个人资料
+                  {t('settings.profile')}
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
                 <Link href="/dashboard/settings" className="cursor-pointer">
                   <Settings className="mr-2 h-4 w-4" />
-                  设置
+                  {t('nav.settings')}
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
@@ -154,7 +160,7 @@ export function DashboardHeader({ profile }: DashboardHeaderProps) {
                 }}
               >
                 <LogOut className="mr-2 h-4 w-4" />
-                退出登录
+                {t('nav.logout')}
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
