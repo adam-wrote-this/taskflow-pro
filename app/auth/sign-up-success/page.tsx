@@ -1,0 +1,38 @@
+import Link from 'next/link'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { CheckSquare, Mail } from 'lucide-react'
+
+export default function SignUpSuccessPage() {
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-background px-4">
+      <Card className="w-full max-w-md text-center">
+        <CardHeader>
+          <div className="flex items-center justify-center gap-2 mb-4">
+            <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-primary">
+              <CheckSquare className="w-6 h-6 text-primary-foreground" />
+            </div>
+            <span className="text-xl font-bold text-foreground">TaskFlow Pro</span>
+          </div>
+          <div className="flex justify-center mb-4">
+            <div className="w-16 h-16 rounded-full bg-success/10 flex items-center justify-center">
+              <Mail className="w-8 h-8 text-success" />
+            </div>
+          </div>
+          <CardTitle className="text-2xl">验证您的邮箱</CardTitle>
+          <CardDescription className="text-base">
+            我们已向您的邮箱发送了一封验证邮件，请点击邮件中的链接完成注册。
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="flex flex-col gap-4">
+          <p className="text-sm text-muted-foreground">
+            没有收到邮件？请检查垃圾邮件文件夹，或者稍后重试。
+          </p>
+          <Button asChild variant="outline">
+            <Link href="/auth/login">返回登录</Link>
+          </Button>
+        </CardContent>
+      </Card>
+    </div>
+  )
+}

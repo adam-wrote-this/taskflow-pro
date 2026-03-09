@@ -7,9 +7,9 @@ const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'v0 App',
-  description: 'Created with v0',
-  generator: 'v0.app',
+  title: 'TaskFlow Pro - DevOps 全流程 SaaS 平台',
+  description: '现代化的项目管理工具，帮助团队轻松追踪任务进度、协同工作，提升整体生产力。',
+  generator: 'TaskFlow Pro',
   icons: {
     icon: [
       {
