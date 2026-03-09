@@ -44,7 +44,23 @@
       "analytics": {
         "title": "数据分析",
         "description": "可视化的项目统计，帮助您做出更明智的决策"
+      },
+      "realtime": {
+        "title": "实时更新",
+        "description": "任务状态实时同步，消息即时送达"
+      },
+      "security": {
+        "title": "安全可靠",
+        "description": "企业级数据安全保障，行级别访问控制"
+      },
+      "simple": {
+        "title": "简单直观",
+        "description": "简洁的界面设计，零学习成本上手"
       }
+    },
+    "cta2": {
+      "title": "准备好提升团队生产力了吗？",
+      "subtitle": "立即注册，免费体验 TaskFlow Pro 的全部功能"
     },
     "stats": {
       "teams": "活跃团队",

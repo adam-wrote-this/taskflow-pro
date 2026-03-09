@@ -44,7 +44,23 @@
       "analytics": {
         "title": "Data Analytics",
         "description": "Visual project statistics to help you make smarter decisions"
+      },
+      "realtime": {
+        "title": "Real-time Updates",
+        "description": "Task status syncs in real-time, instant notification delivery"
+      },
+      "security": {
+        "title": "Secure & Reliable",
+        "description": "Enterprise-grade data security with row-level access control"
+      },
+      "simple": {
+        "title": "Simple & Intuitive",
+        "description": "Clean interface design, zero learning curve"
       }
+    },
+    "cta2": {
+      "title": "Ready to boost your team productivity?",
+      "subtitle": "Sign up now and experience all features of TaskFlow Pro for free"
     },
     "stats": {
       "teams": "Active Teams",

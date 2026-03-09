@@ -85,18 +85,18 @@ export default function HomePage() {
             />
             <FeatureCard
               icon={<Zap className="w-6 h-6" />}
-              title="Real-time Updates"
-              description="Task status syncs in real-time, instant notification delivery"
+              title={t('landing.features.realtime.title')}
+              description={t('landing.features.realtime.description')}
             />
             <FeatureCard
               icon={<Shield className="w-6 h-6" />}
-              title="Secure & Reliable"
-              description="Enterprise-grade data security with row-level access control"
+              title={t('landing.features.security.title')}
+              description={t('landing.features.security.description')}
             />
             <FeatureCard
               icon={<CheckSquare className="w-6 h-6" />}
-              title="Simple & Intuitive"
-              description="Clean interface design, zero learning curve"
+              title={t('landing.features.simple.title')}
+              description={t('landing.features.simple.description')}
             />
           </div>
         </div>
@@ -106,10 +106,10 @@ export default function HomePage() {
       <section className="py-20">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-4 text-balance">
-            Ready to boost your team productivity?
+            {t('landing.cta2.title')}
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
-            Sign up now and experience all features of TaskFlow Pro for free
+            {t('landing.cta2.subtitle')}
           </p>
           <Button size="lg" asChild>
             <Link href="/auth/sign-up">
