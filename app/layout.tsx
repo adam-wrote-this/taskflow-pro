@@ -34,19 +34,23 @@ export const metadata: Metadata = {
 export default async function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode
+  children: React.ReactNode;
 }>) {
-  const locale = await getLocale()
-  const messages = await getMessages()
+  const locale = await getLocale();
+  const messages = await getMessages();
 
   return (
     <html lang={locale}>
       <body className="font-sans antialiased">
-        <NextIntlClientProvider messages={messages}>
+        <NextIntlClientProvider
+          locale={locale}
+          messages={messages}
+          timeZone="Asia/Shanghai"
+        >
           {children}
         </NextIntlClientProvider>
         <Analytics />
       </body>
     </html>
-  )
+  );
 }

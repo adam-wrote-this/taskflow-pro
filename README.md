@@ -24,6 +24,29 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
+## Supabase Database Setup
+
+If you see errors like `Could not find the table 'public.teams' in the schema cache`, your Supabase schema is not fully initialized (or the schema cache is stale).
+
+Run these SQL files in Supabase SQL Editor **in order**:
+
+1. `scripts/001_create_profiles.sql`
+2. `scripts/002_profile_trigger.sql`
+3. `scripts/003_create_teams.sql`
+4. `scripts/004_create_team_members.sql`
+5. `scripts/005_create_projects.sql`
+6. `scripts/006_create_tasks.sql`
+7. `scripts/007_create_comments.sql`
+8. `scripts/008_create_notifications.sql`
+
+Then run:
+
+```sql
+NOTIFY pgrst, 'reload schema';
+```
+
+Also verify your `.env.local` points to the same Supabase project where you executed the SQL.
+
 ## Learn More
 
 To learn more, take a look at the following resources:
