@@ -21,7 +21,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from '@/components/ui/collapsible'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 interface DashboardSidebarProps {
   user: User
@@ -32,7 +32,12 @@ interface DashboardSidebarProps {
 export function DashboardSidebar({ profile, teams }: DashboardSidebarProps) {
   const pathname = usePathname()
   const [teamsOpen, setTeamsOpen] = useState(true)
+  const [mounted, setMounted] = useState(false)
   const t = useTranslations()
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   const mainNavItems = [
     { href: '/dashboard', label: t('nav.dashboard'), icon: LayoutDashboard },
@@ -83,15 +88,57 @@ export function DashboardSidebar({ profile, teams }: DashboardSidebarProps) {
 
             {/* Teams Section */}
             <div className="mt-6">
-              <Collapsible open={teamsOpen} onOpenChange={setTeamsOpen}>
-                <CollapsibleTrigger className="flex w-full items-center justify-between px-3 py-2 text-xs font-semibold uppercase tracking-wider text-sidebar-foreground/50">
-                  {t('teams.myTeams')}
-                  <ChevronDown className={cn(
-                    "h-4 w-4 transition-transform",
-                    teamsOpen && "rotate-180"
-                  )} />
-                </CollapsibleTrigger>
-                <CollapsibleContent className="flex flex-col gap-1 mt-1">
+              {mounted ? (
+                <Collapsible open={teamsOpen} onOpenChange={setTeamsOpen}>
+                  <CollapsibleTrigger className="flex w-full items-center justify-between px-3 py-2 text-xs font-semibold uppercase tracking-wider text-sidebar-foreground/50">
+                    {t('teams.myTeams')}
+                    <ChevronDown className={cn(
+                      "h-4 w-4 transition-transform",
+                      teamsOpen && "rotate-180"
+                    )} />
+                  </CollapsibleTrigger>
+                  <CollapsibleContent className="flex flex-col gap-1 mt-1">
+                    {teams.length > 0 ? (
+                      teams.map((team) => (
+                        <Link
+                          key={team.id}
+                          href={`/dashboard/teams/${team.id}`}
+                          className={cn(
+                            'flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors',
+                            pathname === `/dashboard/teams/${team.id}`
+                              ? 'bg-sidebar-accent text-sidebar-accent-foreground'
+                              : 'text-sidebar-foreground/70 hover:bg-sidebar-accent/50 hover:text-sidebar-foreground'
+                          )}
+                        >
+                          <div className="flex items-center justify-center w-6 h-6 rounded bg-sidebar-accent text-xs font-medium text-sidebar-accent-foreground">
+                            {team.name.charAt(0).toUpperCase()}
+                          </div>
+                          <span className="truncate">{team.name}</span>
+                        </Link>
+                      ))
+                    ) : (
+                      <p className="px-3 py-2 text-xs text-sidebar-foreground/50">
+                        {t('teams.noTeams')}
+                      </p>
+                    )}
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="justify-start gap-2 text-sidebar-foreground/70 hover:text-sidebar-foreground"
+                      asChild
+                    >
+                      <Link href="/dashboard/teams/new">
+                        <Plus className="h-4 w-4" />
+                        {t('teams.createTeam')}
+                      </Link>
+                    </Button>
+                  </CollapsibleContent>
+                </Collapsible>
+              ) : (
+                <div className="flex flex-col gap-1 mt-1">
+                  <p className="px-3 py-2 text-xs font-semibold uppercase tracking-wider text-sidebar-foreground/50">
+                    {t('teams.myTeams')}
+                  </p>
                   {teams.length > 0 ? (
                     teams.map((team) => (
                       <Link
@@ -115,19 +162,8 @@ export function DashboardSidebar({ profile, teams }: DashboardSidebarProps) {
                       {t('teams.noTeams')}
                     </p>
                   )}
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="justify-start gap-2 text-sidebar-foreground/70 hover:text-sidebar-foreground"
-                    asChild
-                  >
-                    <Link href="/dashboard/teams/new">
-                      <Plus className="h-4 w-4" />
-                      {t('teams.createTeam')}
-                    </Link>
-                  </Button>
-                </CollapsibleContent>
-              </Collapsible>
+                </div>
+              )}
             </div>
           </nav>
 

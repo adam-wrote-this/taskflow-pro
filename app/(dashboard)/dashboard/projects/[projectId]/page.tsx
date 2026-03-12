@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { ArrowLeft, Settings, Plus } from 'lucide-react'
 import { KanbanBoard } from '@/components/kanban/board'
 import { CreateTaskDialog } from '@/components/kanban/create-task-dialog'
-import type { Task, TaskStatus } from '@/lib/types'
+import type { Profile, Task, TaskStatus } from '@/lib/types'
 
 interface ProjectDetailPageProps {
   params: Promise<{ projectId: string }>
@@ -49,24 +49,57 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
   const isOwnerOrAdmin = userRole === 'owner' || userRole === 'admin'
 
   // Get all tasks for this project
-  const { data: tasks } = await supabase
+  const { data: tasksData, error: tasksError } = await supabase
     .from('tasks')
-    .select(`
-      *,
-      assignee:profiles!tasks_assignee_id_fkey(id, full_name, email, avatar_url),
-      created_by_profile:profiles!tasks_created_by_fkey(id, full_name, email)
-    `)
+    .select('*')
     .eq('project_id', projectId)
     .order('position', { ascending: true })
 
-  // Get team members for assignment
-  const { data: teamMembers } = await supabase
+  if (tasksError) {
+    console.error('Failed to load tasks for project:', tasksError)
+  }
+
+  const tasks = tasksData || []
+
+  // Get team member ids for assignment list
+  const { data: teamMemberRows, error: teamMembersError } = await supabase
     .from('team_members')
-    .select(`
-      user_id,
-      profile:profiles(id, full_name, email, avatar_url)
-    `)
+    .select('user_id')
     .eq('team_id', project.team_id)
+
+  if (teamMembersError) {
+    console.error('Failed to load team members for project:', teamMembersError)
+  }
+
+  const teamMemberIds = (teamMemberRows || []).map((m) => m.user_id)
+
+  // Fetch related profiles explicitly to avoid relying on implicit relation inference
+  const profileIds = Array.from(
+    new Set([
+      ...teamMemberIds,
+      ...tasks.map((t) => t.assignee_id).filter(Boolean),
+      ...tasks.map((t) => t.created_by).filter(Boolean),
+    ])
+  )
+
+  const { data: profiles } = profileIds.length > 0
+    ? await supabase
+        .from('profiles')
+        .select('id, full_name, email, avatar_url')
+        .in('id', profileIds)
+    : { data: [] }
+
+  const profileById = new Map((profiles || []).map((p) => [p.id, p]))
+
+  const tasksWithProfiles: Task[] = tasks.map((task) => ({
+    ...task,
+    assignee: task.assignee_id ? (profileById.get(task.assignee_id) as Profile | undefined) : undefined,
+    created_by_profile: (profileById.get(task.created_by) as Profile | undefined),
+  }))
+
+  const teamMembers = teamMemberIds
+    .map((id) => profileById.get(id))
+    .filter(Boolean) as Profile[]
 
   // Group tasks by status
   const columns: Record<TaskStatus, Task[]> = {
@@ -77,9 +110,11 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
     done: [],
   }
 
-  tasks?.forEach((task) => {
-    if (columns[task.status as TaskStatus]) {
-      columns[task.status as TaskStatus].push(task)
+  tasksWithProfiles.forEach((task) => {
+    const rawStatus = String(task.status)
+    const normalizedStatus = (rawStatus === 'in_review' ? 'review' : rawStatus) as TaskStatus
+    if (columns[normalizedStatus]) {
+      columns[normalizedStatus].push({ ...task, status: normalizedStatus })
     }
   })
 
@@ -106,7 +141,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
         <div className="flex items-center gap-2">
           <CreateTaskDialog 
             projectId={projectId} 
-            teamMembers={teamMembers?.map(m => m.profile).filter(Boolean) || []}
+            teamMembers={teamMembers}
           />
           {isOwnerOrAdmin && (
             <Button variant="outline" size="sm" asChild>
@@ -124,7 +159,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
         <KanbanBoard 
           projectId={projectId}
           initialColumns={columns}
-          teamMembers={teamMembers?.map(m => m.profile).filter(Boolean) || []}
+          teamMembers={teamMembers}
         />
       </div>
     </div>

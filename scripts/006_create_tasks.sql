@@ -5,7 +5,7 @@
 do $$
 begin
   if not exists (select 1 from pg_type where typname = 'task_status') then
-    create type task_status as enum ('todo', 'in_progress', 'in_review', 'done');
+    create type task_status as enum ('backlog', 'todo', 'in_progress', 'review', 'done');
   end if;
 end
 $$;

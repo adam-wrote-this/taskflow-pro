@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import {
   DndContext,
@@ -36,6 +36,11 @@ export function KanbanBoard({ projectId, initialColumns, teamMembers }: KanbanBo
   const router = useRouter()
   const [columns, setColumns] = useState(initialColumns)
   const [activeTask, setActiveTask] = useState<Task | null>(null)
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -183,6 +188,14 @@ export function KanbanBoard({ projectId, initialColumns, teamMembers }: KanbanBo
   }
 
   const columnOrder: TaskStatus[] = ['backlog', 'todo', 'in_progress', 'review', 'done']
+
+  if (!mounted) {
+    return (
+      <div className="flex items-center justify-center h-full text-sm text-muted-foreground">
+        加载看板中...
+      </div>
+    )
+  }
 
   return (
     <DndContext

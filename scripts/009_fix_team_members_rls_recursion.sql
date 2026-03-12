@@ -1,25 +1,7 @@
--- 004_create_team_members.sql
--- 团队成员关联表
+-- 009_fix_team_members_rls_recursion.sql
+-- 修复 team_members RLS 递归问题
 
--- 创建角色枚举类型
-do $$
-begin
-  if not exists (select 1 from pg_type where typname = 'team_role') then
-    create type team_role as enum ('owner', 'admin', 'member');
-  end if;
-end
-$$;
-
-create table if not exists public.team_members (
-  id uuid primary key default gen_random_uuid(),
-  team_id uuid not null references public.teams(id) on delete cascade,
-  user_id uuid not null references auth.users(id) on delete cascade,
-  role team_role not null default 'member',
-  joined_at timestamp with time zone default now(),
-  unique(team_id, user_id)
-);
-
--- 使用 SECURITY DEFINER 函数避免在 RLS 策略中直接自查询 team_members 导致递归
+-- 通过 SECURITY DEFINER 函数封装权限判断，避免在 policy 中直接查询 team_members 自身
 create or replace function public.is_team_member(
   _team_id uuid,
   _user_id uuid default auth.uid()
@@ -63,22 +45,21 @@ as $$
   );
 $$;
 
--- 启用 RLS
 alter table public.team_members enable row level security;
 
--- RLS 策略：团队成员可以查看同团队的成员
+drop policy if exists "team_members_select" on public.team_members;
 create policy "team_members_select" on public.team_members
   for select using (
     public.is_team_member(team_members.team_id)
   );
 
--- RLS 策略：团队所有者或管理员可以添加成员
+drop policy if exists "team_members_insert" on public.team_members;
 create policy "team_members_insert" on public.team_members
   for insert with check (
     public.is_team_admin_or_owner(team_members.team_id)
   );
 
--- RLS 策略：团队所有者或管理员可以更新成员角色
+drop policy if exists "team_members_update" on public.team_members;
 create policy "team_members_update" on public.team_members
   for update using (
     public.is_team_admin_or_owner(team_members.team_id)
@@ -87,15 +68,15 @@ create policy "team_members_update" on public.team_members
     public.is_team_admin_or_owner(team_members.team_id)
   );
 
--- RLS 策略：团队所有者或管理员可以移除成员，或用户自己退出
+drop policy if exists "team_members_delete" on public.team_members;
 create policy "team_members_delete" on public.team_members
   for delete using (
     public.is_team_admin_or_owner(team_members.team_id)
     or user_id = auth.uid()
   );
 
--- 更新 teams 表的查看策略，允许团队成员查看
 drop policy if exists "teams_select_owner" on public.teams;
+drop policy if exists "teams_select_member" on public.teams;
 create policy "teams_select_member" on public.teams
   for select using (
     owner_id = auth.uid()
