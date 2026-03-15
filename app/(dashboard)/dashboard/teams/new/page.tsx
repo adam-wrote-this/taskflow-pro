@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
+import { formatDbSetupError } from '@/lib/supabase/error-format'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -10,19 +11,6 @@ import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { ArrowLeft, Loader2, Users } from 'lucide-react'
 import Link from 'next/link'
-
-function formatDbSetupError(error: { message: string; code?: string | null }) {
-  const isSchemaCacheMissingTable =
-    error.code === 'PGRST205' ||
-    /schema cache/i.test(error.message) ||
-    /Could not find the table 'public\./i.test(error.message)
-
-  if (isSchemaCacheMissingTable) {
-    return '数据库未初始化（缺少 teams/team_members 表）。请在 Supabase SQL Editor 按顺序执行 scripts/001 到 scripts/008 后重试。'
-  }
-
-  return error.message
-}
 
 export default function NewTeamPage() {
   const router = useRouter()
