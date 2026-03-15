@@ -6,6 +6,7 @@ import { ArrowLeft, Settings, Plus } from 'lucide-react'
 import { KanbanBoard } from '@/components/kanban/board'
 import { CreateTaskDialog } from '@/components/kanban/create-task-dialog'
 import type { Profile, Task, TaskStatus } from '@/lib/types'
+import { normalizeTaskStatus } from '@/lib/task-logic'
 
 interface ProjectDetailPageProps {
   params: Promise<{ projectId: string }>
@@ -111,9 +112,8 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
   }
 
   tasksWithProfiles.forEach((task) => {
-    const rawStatus = String(task.status)
-    const normalizedStatus = (rawStatus === 'in_review' ? 'review' : rawStatus) as TaskStatus
-    if (columns[normalizedStatus]) {
+    const normalizedStatus = normalizeTaskStatus(String(task.status))
+    if (normalizedStatus) {
       columns[normalizedStatus].push({ ...task, status: normalizedStatus })
     }
   })

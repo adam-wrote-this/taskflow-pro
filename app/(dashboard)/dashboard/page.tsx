@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { FolderKanban, CheckCircle2, Clock, AlertCircle, Plus, Users, ArrowRight } from 'lucide-react'
 import { TASK_STATUS_CONFIG, TASK_PRIORITY_CONFIG } from '@/lib/types'
 import type { Task, Project } from '@/lib/types'
+import { countDueSoonTasks } from '@/lib/task-logic'
 
 export default async function DashboardPage() {
   const supabase = await createClient()
@@ -50,13 +51,7 @@ export default async function DashboardPage() {
   const totalTasks = myTasks?.length || 0
   const inProgressTasks = myTasks?.filter(t => t.status === 'in_progress').length || 0
   const urgentTasks = myTasks?.filter(t => t.priority === 'urgent' || t.priority === 'high').length || 0
-  const dueSoonTasks = myTasks?.filter(t => {
-    if (!t.due_date) return false
-    const dueDate = new Date(t.due_date)
-    const now = new Date()
-    const diffDays = Math.ceil((dueDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24))
-    return diffDays <= 3 && diffDays >= 0
-  }).length || 0
+  const dueSoonTasks = countDueSoonTasks(myTasks || [], 3)
 
   return (
     <div className="flex flex-col gap-6">

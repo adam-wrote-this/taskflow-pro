@@ -49,7 +49,12 @@ export default function NewProjectPage() {
         .eq('user_id', user.id)
         .in('role', ['owner', 'admin'])
 
-      const userTeams = memberships?.map(m => m.team).filter(Boolean) as Team[] || []
+      const userTeams = (memberships || [])
+        .flatMap((m) => {
+          if (Array.isArray(m.team)) return m.team
+          return m.team ? [m.team] : []
+        })
+        .filter((team): team is Team => Boolean(team))
       setTeams(userTeams)
       
       if (preselectedTeamId && userTeams.some(t => t.id === preselectedTeamId)) {

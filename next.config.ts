@@ -17,7 +17,7 @@ const nextConfig: NextConfig = {
     unoptimized: true,
   },
   // 解决跨域警告：添加 allowedDevOrigins
-  allowedDevOrigins: ["http://172.27.32.1"],
+  allowedDevOrigins: ["172.27.32.1", "127.0.0.1", "localhost"],
 };
 
 // 导出包装后的配置（TS 用 export default 语法）
