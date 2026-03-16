@@ -4,8 +4,8 @@ const hasAuthCredentials =
   Boolean(process.env.E2E_USER_EMAIL) && Boolean(process.env.E2E_USER_PASSWORD)
 const runWriteFlows = process.env.E2E_ENABLE_WRITE_TESTS === '1'
 
-test.describe('Sign-up flow', () => {
-  test('sign-up-success page renders and provides back-to-login link', async ({ page }) => {
+test.describe('注册流程（Sign-up flow）', () => {
+  test('注册成功提示页可正常渲染并提供返回登录链接', async ({ page }) => {
     await page.goto('/auth/sign-up-success')
 
     // Page should be visible (not redirected away)
@@ -20,14 +20,14 @@ test.describe('Sign-up flow', () => {
     await expect(page).toHaveURL(/\/auth\/login/)
   })
 
-  test('sign-up form enforces password minimum length attribute', async ({ page }) => {
+  test('注册表单应声明密码最小长度属性', async ({ page }) => {
     await page.goto('/auth/sign-up')
 
     await expect(page.locator('input[name="password"]')).toHaveAttribute('minlength', '6')
     await expect(page.locator('input[name="password"]')).toHaveAttribute('required', '')
   })
 
-  test('sign-up form requires all three fields (fullName, email, password)', async ({ page }) => {
+  test('注册表单应要求 fullName、email、password 三个字段必填', async ({ page }) => {
     await page.goto('/auth/sign-up')
 
     await expect(page.locator('input[name="fullName"]')).toHaveAttribute('required', '')
@@ -35,7 +35,7 @@ test.describe('Sign-up flow', () => {
     await expect(page.locator('input[name="email"]')).toHaveAttribute('type', 'email')
   })
 
-  test('sign-up page link to login is accessible', async ({ page }) => {
+  test('注册页中的返回登录链接可访问', async ({ page }) => {
     await page.goto('/auth/sign-up')
 
     // Should have a link back to login
@@ -43,7 +43,7 @@ test.describe('Sign-up flow', () => {
     await expect(page).toHaveURL(/\/auth\/login/)
   })
 
-  test('register with mismatched short-password shows server error (credential-gated)', async ({ page }) => {
+  test('凭证门控：注册异常时应出现错误提示或停留在注册流程', async ({ page }) => {
     test.skip(
       !hasAuthCredentials,
       'Set E2E_USER_EMAIL and E2E_USER_PASSWORD to run credential-gated sign-up tests.',
@@ -69,7 +69,7 @@ test.describe('Sign-up flow', () => {
     expect(isSuccess || isError).toBe(true)
   })
 
-  test('successful sign-up redirects to sign-up-success (write-gated)', async ({ page }) => {
+  test('写入门控：注册成功后应跳转到 sign-up-success 页面', async ({ page }) => {
     test.skip(
       !hasAuthCredentials || !runWriteFlows,
       'Set E2E_USER_EMAIL, E2E_USER_PASSWORD and E2E_ENABLE_WRITE_TESTS=1 to run write-flow sign-up tests.',

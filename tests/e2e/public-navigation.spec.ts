@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test'
 
-test.describe('Public navigation smoke', () => {
-  test('landing page can navigate to login and sign up', async ({ page }) => {
+test.describe('公共导航冒烟测试（Public navigation smoke）', () => {
+  test('落地页可以跳转到登录页和注册页', async ({ page }) => {
     await page.goto('/')
 
     await expect(page).toHaveTitle(/TaskFlow Pro/i)

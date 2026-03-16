@@ -11,13 +11,13 @@ async function signIn(page: Page) {
   await page.waitForURL(/\/dashboard/, { timeout: 15_000 })
 }
 
-test.describe('Sign-out flow', () => {
+test.describe('退出登录流程（Sign-out flow）', () => {
   test.skip(
     !hasAuthCredentials,
     'Set E2E_USER_EMAIL and E2E_USER_PASSWORD to run sign-out tests.',
   )
 
-  test('authenticated user can sign out and is redirected to home page', async ({ page }) => {
+  test('已登录用户可以退出并跳转到首页', async ({ page }) => {
     await signIn(page)
     await expect(page).toHaveURL(/\/dashboard/)
 
@@ -36,7 +36,7 @@ test.describe('Sign-out flow', () => {
     await expect(page).not.toHaveURL(/\/dashboard/, { timeout: 10_000 })
   })
 
-  test('after sign-out, visiting dashboard redirects to login', async ({ page }) => {
+  test('退出后再次访问 dashboard 会被重定向到登录页', async ({ page }) => {
     await signIn(page)
 
     // Sign out via the user menu
@@ -53,33 +53,33 @@ test.describe('Sign-out flow', () => {
   })
 })
 
-test.describe('Route permission guards', () => {
-  test('unauthenticated user cannot access /dashboard/teams', async ({ page }) => {
+test.describe('路由权限守卫（Route permission guards）', () => {
+  test('未登录用户无法访问 /dashboard/teams', async ({ page }) => {
     await page.goto('/dashboard/teams')
     await expect(page).toHaveURL(/\/auth\/login/)
   })
 
-  test('unauthenticated user cannot access /dashboard/projects', async ({ page }) => {
+  test('未登录用户无法访问 /dashboard/projects', async ({ page }) => {
     await page.goto('/dashboard/projects')
     await expect(page).toHaveURL(/\/auth\/login/)
   })
 
-  test('unauthenticated user cannot access /dashboard/settings', async ({ page }) => {
+  test('未登录用户无法访问 /dashboard/settings', async ({ page }) => {
     await page.goto('/dashboard/settings')
     await expect(page).toHaveURL(/\/auth\/login/)
   })
 
-  test('unauthenticated user cannot access /dashboard/teams/new', async ({ page }) => {
+  test('未登录用户无法访问 /dashboard/teams/new', async ({ page }) => {
     await page.goto('/dashboard/teams/new')
     await expect(page).toHaveURL(/\/auth\/login/)
   })
 
-  test('unauthenticated user cannot access /dashboard/projects/new', async ({ page }) => {
+  test('未登录用户无法访问 /dashboard/projects/new', async ({ page }) => {
     await page.goto('/dashboard/projects/new')
     await expect(page).toHaveURL(/\/auth\/login/)
   })
 
-  test('unauthenticated user visiting an unknown team ID is redirected to login', async ({ page }) => {
+  test('未登录用户访问不存在团队 ID 时会被重定向到登录页', async ({ page }) => {
     await page.goto('/dashboard/teams/non-existent-team-id-000')
     await expect(page).toHaveURL(/\/auth\/login/)
   })

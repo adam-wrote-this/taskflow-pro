@@ -27,7 +27,7 @@ async function signIn(page: Page) {
  *   E2E_ENABLE_WRITE_TESTS=1             (write permission)
  *   E2E_SECOND_USER_EMAIL                (target account for invite, optional)
  */
-test.describe.serial('Team member management', () => {
+test.describe.serial('团队成员管理（Team member management）', () => {
   test.skip(
     !hasAuthCredentials || !runWriteFlows,
     'Set E2E_USER_EMAIL, E2E_USER_PASSWORD and E2E_ENABLE_WRITE_TESTS=1 to run member-management tests.',
@@ -50,14 +50,14 @@ test.describe.serial('Team member management', () => {
     await context.close()
   })
 
-  test('owner can see the invite member button on team page', async ({ page }) => {
+  test('团队所有者在团队页可以看到邀请成员按钮', async ({ page }) => {
     await signIn(page)
     await page.goto(teamUrl)
 
     await expect(page.getByRole('button', { name: /邀请|Invite/i })).toBeVisible()
   })
 
-  test('invite dialog opens and shows email and role fields', async ({ page }) => {
+  test('邀请弹窗可打开且显示邮箱与角色字段', async ({ page }) => {
     await signIn(page)
     await page.goto(teamUrl)
 
@@ -70,7 +70,7 @@ test.describe.serial('Team member management', () => {
     await expect(dialog.getByRole('button', { name: /成员|Member/i })).toBeVisible()
   })
 
-  test('invite dialog shows error when email is empty', async ({ page }) => {
+  test('邀请弹窗在邮箱为空时会显示错误提示', async ({ page }) => {
     await signIn(page)
     await page.goto(teamUrl)
 
@@ -83,7 +83,7 @@ test.describe.serial('Team member management', () => {
     await expect(page.getByText(/请输入邮箱地址/)).toBeVisible()
   })
 
-  test('can invite an existing user as member (second-user-gated)', async ({ page }) => {
+  test('第二账号门控：可以邀请已存在用户为成员', async ({ page }) => {
     test.skip(
       !hasSecondUser,
       'Set E2E_SECOND_USER_EMAIL to run invite-by-email test.',
@@ -104,7 +104,7 @@ test.describe.serial('Team member management', () => {
     })
   })
 
-  test('owner can change a member role (second-user-gated)', async ({ page }) => {
+  test('第二账号门控：所有者可以修改成员角色', async ({ page }) => {
     test.skip(
       !hasSecondUser,
       'Set E2E_SECOND_USER_EMAIL to run role-change test.',
@@ -126,7 +126,7 @@ test.describe.serial('Team member management', () => {
     await expect(page.getByText(/管理员|Admin/i)).toBeVisible({ timeout: 8_000 })
   })
 
-  test('owner can remove a member (second-user-gated)', async ({ page }) => {
+  test('第二账号门控：所有者可以移除成员', async ({ page }) => {
     test.skip(
       !hasSecondUser,
       'Set E2E_SECOND_USER_EMAIL to run remove-member test.',

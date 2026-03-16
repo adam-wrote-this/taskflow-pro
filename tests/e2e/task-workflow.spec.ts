@@ -22,7 +22,7 @@ async function signIn(page: Page) {
  * The suite is serial: each test builds on the state established by the previous one.
  * A unique project is created in beforeAll; all task tests operate on that project.
  */
-test.describe.serial('Task workflow', () => {
+test.describe.serial('任务工作流（Task workflow）', () => {
   test.skip(
     !hasAuthCredentials || !runWriteFlows,
     'Set E2E_USER_EMAIL, E2E_USER_PASSWORD and E2E_ENABLE_WRITE_TESTS=1 to run task workflow tests.',
@@ -60,7 +60,7 @@ test.describe.serial('Task workflow', () => {
     await context.close()
   })
 
-  test('can create a new project', async ({ page }) => {
+  test('可以创建新项目', async ({ page }) => {
     // Project is created in beforeAll; validate we can reach the project page
     await signIn(page)
     await page.goto(projectUrl)
@@ -69,7 +69,7 @@ test.describe.serial('Task workflow', () => {
     await expect(page.locator('main')).toBeVisible()
   })
 
-  test('can create a task on the kanban board', async ({ page }) => {
+  test('可以在看板中创建任务', async ({ page }) => {
     await signIn(page)
     await page.goto(projectUrl)
 
@@ -88,7 +88,7 @@ test.describe.serial('Task workflow', () => {
     await expect(page.getByText(taskTitle)).toBeVisible({ timeout: 10_000 })
   })
 
-  test('can open task detail and edit the title', async ({ page }) => {
+  test('可以打开任务详情并编辑标题', async ({ page }) => {
     await signIn(page)
     await page.goto(projectUrl)
 
@@ -108,7 +108,7 @@ test.describe.serial('Task workflow', () => {
     await expect(page.getByText(editedTitle)).toBeVisible({ timeout: 10_000 })
   })
 
-  test('can drag a task to a different column', async ({ page }) => {
+  test('可以将任务拖拽到不同列', async ({ page }) => {
     await signIn(page)
     await page.goto(projectUrl)
 
@@ -126,7 +126,7 @@ test.describe.serial('Task workflow', () => {
     await expect(page.getByText(editedTitle)).toBeVisible({ timeout: 8_000 })
   })
 
-  test('can delete a task via detail dialog', async ({ page }) => {
+  test('可以通过任务详情弹窗删除任务', async ({ page }) => {
     await signIn(page)
     await page.goto(projectUrl)
 

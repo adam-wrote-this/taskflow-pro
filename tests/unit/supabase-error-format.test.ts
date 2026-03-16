@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest'
 import { formatDbSetupError } from '@/lib/supabase/error-format'
 
-describe('formatDbSetupError', () => {
-  it('returns setup guide message for schema cache error code', () => {
+describe('数据库初始化错误文案格式化（formatDbSetupError）', () => {
+  it('遇到 schema cache 错误码时应返回初始化引导文案', () => {
     const result = formatDbSetupError({
       message: 'some message',
       code: 'PGRST205',
@@ -11,7 +11,7 @@ describe('formatDbSetupError', () => {
     expect(result).toContain('数据库未初始化')
   })
 
-  it('returns setup guide message for schema cache error text', () => {
+  it('遇到 schema cache 错误文本时应返回初始化引导文案', () => {
     const result = formatDbSetupError({
       message: "Could not find the table 'public.teams' in the schema cache",
     })
@@ -19,7 +19,7 @@ describe('formatDbSetupError', () => {
     expect(result).toContain('scripts/001 到 scripts/008')
   })
 
-  it('passes through unknown errors', () => {
+  it('未知错误应透传原始消息', () => {
     const result = formatDbSetupError({
       message: 'permission denied for table teams',
       code: '42501',

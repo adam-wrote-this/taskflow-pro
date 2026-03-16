@@ -1,13 +1,13 @@
 import { expect, test } from '@playwright/test'
 
-test.describe('Auth pages and route guards', () => {
-  test('unauthenticated user is redirected from dashboard to login page', async ({ page }) => {
+test.describe('认证页面与路由守卫（Auth pages and route guards）', () => {
+  test('未登录用户访问 dashboard 时会重定向到登录页', async ({ page }) => {
     await page.goto('/dashboard')
     await expect(page).toHaveURL(/\/auth\/login/)
     await expect(page.locator('input[name="email"]')).toBeVisible()
   })
 
-  test('login and sign-up pages link to each other and expose expected fields', async ({ page }) => {
+  test('登录页与注册页可互相跳转且包含预期字段', async ({ page }) => {
     await page.goto('/auth/login')
 
     await expect(page.locator('input[name="email"]')).toBeVisible()

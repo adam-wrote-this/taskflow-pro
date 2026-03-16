@@ -11,13 +11,13 @@ async function signIn(page: Page) {
   await page.locator('form button[type="submit"]').click()
 }
 
-test.describe('Authenticated dashboard flow', () => {
+test.describe('已登录用户仪表盘流程（Authenticated dashboard flow）', () => {
   test.skip(
     !hasAuthCredentials,
     'Set E2E_USER_EMAIL and E2E_USER_PASSWORD to run authenticated flow tests.',
   )
 
-  test('user sees an error on invalid login password', async ({ page }) => {
+  test('登录密码错误时会显示错误提示', async ({ page }) => {
     await page.goto('/auth/login')
 
     await page.locator('input[name="email"]').fill(process.env.E2E_USER_EMAIL || '')
@@ -30,14 +30,14 @@ test.describe('Authenticated dashboard flow', () => {
     await expect(errorBox).not.toHaveText('')
   })
 
-  test('user can sign in and reach dashboard', async ({ page }) => {
+  test('用户登录成功后可以进入仪表盘', async ({ page }) => {
     await signIn(page)
 
     await expect(page).toHaveURL(/\/dashboard/)
     await expect(page.locator('main')).toBeVisible()
   })
 
-  test('authenticated user can create a team', async ({ page }) => {
+  test('已登录用户可以创建团队', async ({ page }) => {
     test.skip(
       !runWriteFlows,
       'Set E2E_ENABLE_WRITE_TESTS=1 to run team creation flow tests.',

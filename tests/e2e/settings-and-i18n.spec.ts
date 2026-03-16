@@ -12,15 +12,15 @@ async function signIn(page: Page) {
   await page.waitForURL(/\/dashboard/, { timeout: 15_000 })
 }
 
-test.describe('Language switcher (public pages)', () => {
-  test('language switcher is visible on login page', async ({ page }) => {
+test.describe('语言切换器（公共页面）', () => {
+  test('登录页可见语言切换按钮', async ({ page }) => {
     await page.goto('/auth/login')
     // Globe icon button for language switcher
     const langButton = page.getByRole('button', { name: /Switch language/i })
     await expect(langButton).toBeVisible()
   })
 
-  test('switching from zh to en on login page changes the UI language', async ({ page }) => {
+  test('登录页从 zh 切换到 en 后界面文案会变化', async ({ page }) => {
     await page.goto('/auth/login')
 
     // Default locale is zh — title should be in Chinese
@@ -35,7 +35,7 @@ test.describe('Language switcher (public pages)', () => {
     await expect(page.getByText(/Log in|Sign in|Welcome back/i)).toBeVisible({ timeout: 8_000 })
   })
 
-  test('switching back to zh restores Chinese UI', async ({ page }) => {
+  test('切回 zh 后界面恢复中文文案', async ({ page }) => {
     // Start on login with English set (from cookie)
     await page.goto('/auth/login')
     await page.getByRole('button', { name: /Switch language/i }).click()
@@ -51,13 +51,13 @@ test.describe('Language switcher (public pages)', () => {
   })
 })
 
-test.describe('Settings page – profile & password', () => {
+test.describe('设置页：个人资料与密码', () => {
   test.skip(
     !hasAuthCredentials,
     'Set E2E_USER_EMAIL and E2E_USER_PASSWORD to run settings tests.',
   )
 
-  test('settings page loads and shows profile tab', async ({ page }) => {
+  test('设置页可正常加载并显示个人资料区域', async ({ page }) => {
     await signIn(page)
     await page.goto('/dashboard/settings')
 
@@ -66,7 +66,7 @@ test.describe('Settings page – profile & password', () => {
     await expect(page.getByLabel(/姓名|Full Name|Name/i)).toBeVisible()
   })
 
-  test('settings page shows language selector in preferences tab', async ({ page }) => {
+  test('设置页偏好区域可见语言相关设置', async ({ page }) => {
     await signIn(page)
     await page.goto('/dashboard/settings')
 
@@ -80,7 +80,7 @@ test.describe('Settings page – profile & password', () => {
     await expect(page.getByText(/语言|Language/i)).toBeVisible({ timeout: 8_000 })
   })
 
-  test('settings page – password change dialog appears on button click', async ({ page }) => {
+  test('点击修改密码按钮后会弹出密码修改对话框', async ({ page }) => {
     await signIn(page)
     await page.goto('/dashboard/settings')
 
@@ -98,7 +98,7 @@ test.describe('Settings page – profile & password', () => {
     await expect(page.getByRole('alertdialog')).toBeVisible({ timeout: 5_000 })
   })
 
-  test('password change dialog shows error when passwords do not match', async ({ page }) => {
+  test('新密码与确认密码不一致时会显示错误提示', async ({ page }) => {
     await signIn(page)
     await page.goto('/dashboard/settings')
 
@@ -118,7 +118,7 @@ test.describe('Settings page – profile & password', () => {
     await expect(page.getByText(/密码不一致|Passwords do not match/i)).toBeVisible({ timeout: 5_000 })
   })
 
-  test('can update display name (write-gated)', async ({ page }) => {
+  test('写入门控：可以更新显示名称', async ({ page }) => {
     test.skip(
       !runWriteFlows,
       'Set E2E_ENABLE_WRITE_TESTS=1 to run profile-update test.',
@@ -139,20 +139,20 @@ test.describe('Settings page – profile & password', () => {
   })
 })
 
-test.describe('Language switcher on dashboard (authenticated)', () => {
+test.describe('已登录态仪表盘语言切换', () => {
   test.skip(
     !hasAuthCredentials,
     'Set E2E_USER_EMAIL and E2E_USER_PASSWORD to run dashboard i18n tests.',
   )
 
-  test('dashboard shows Chinese nav labels by default', async ({ page }) => {
+  test('默认情况下仪表盘导航显示中文（或可回退英文）', async ({ page }) => {
     await signIn(page)
     await expect(page.getByText('仪表盘').or(page.getByText('Dashboard'))).toBeVisible({
       timeout: 8_000,
     })
   })
 
-  test('switching dashboard language updates nav labels', async ({ page }) => {
+  test('切换仪表盘语言后导航文案会更新', async ({ page }) => {
     await signIn(page)
 
     // Switch to English via dashboard header language button
