@@ -50,7 +50,7 @@ export function DashboardSidebar({ profile, teams }: DashboardSidebarProps) {
     <>
       {/* Mobile overlay */}
       <div className="hidden" />
-      
+
       {/* Sidebar */}
       <aside className="fixed left-0 top-0 z-40 h-screen w-64 bg-sidebar border-r border-sidebar-border hidden lg:block">
         <div className="flex h-full flex-col">
@@ -59,30 +59,34 @@ export function DashboardSidebar({ profile, teams }: DashboardSidebarProps) {
             <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-sidebar-primary">
               <CheckSquare className="w-5 h-5 text-sidebar-primary-foreground" />
             </div>
-            <span className="text-lg font-bold text-sidebar-foreground">TaskFlow Pro</span>
+            <span className="text-lg font-bold text-sidebar-foreground">
+              TaskFlow Pro
+            </span>
           </div>
 
           {/* Navigation */}
           <nav className="flex-1 overflow-y-auto p-4">
             <div className="flex flex-col gap-1">
               {mainNavItems.map((item) => {
-                const isActive = pathname === item.href || 
-                  (item.href !== '/dashboard' && pathname.startsWith(item.href))
+                const isActive =
+                  pathname === item.href ||
+                  (item.href !== "/dashboard" &&
+                    pathname.startsWith(item.href));
                 return (
                   <Link
                     key={item.href}
                     href={item.href}
                     className={cn(
-                      'flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
+                      "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
                       isActive
-                        ? 'bg-sidebar-accent text-sidebar-accent-foreground'
-                        : 'text-sidebar-foreground/70 hover:bg-sidebar-accent/50 hover:text-sidebar-foreground'
+                        ? "bg-sidebar-accent text-sidebar-accent-foreground"
+                        : "text-sidebar-foreground/70 hover:bg-sidebar-accent/50 hover:text-sidebar-foreground",
                     )}
                   >
                     <item.icon className="h-5 w-5" />
                     {item.label}
                   </Link>
-                )
+                );
               })}
             </div>
 
@@ -91,11 +95,13 @@ export function DashboardSidebar({ profile, teams }: DashboardSidebarProps) {
               {mounted ? (
                 <Collapsible open={teamsOpen} onOpenChange={setTeamsOpen}>
                   <CollapsibleTrigger className="flex w-full items-center justify-between px-3 py-2 text-xs font-semibold uppercase tracking-wider text-sidebar-foreground/50">
-                    {t('teams.myTeams')}
-                    <ChevronDown className={cn(
-                      "h-4 w-4 transition-transform",
-                      teamsOpen && "rotate-180"
-                    )} />
+                    {t("teams.myTeams")}
+                    <ChevronDown
+                      className={cn(
+                        "h-4 w-4 transition-transform",
+                        teamsOpen && "rotate-180",
+                      )}
+                    />
                   </CollapsibleTrigger>
                   <CollapsibleContent className="flex flex-col gap-1 mt-1">
                     {teams.length > 0 ? (
@@ -104,10 +110,10 @@ export function DashboardSidebar({ profile, teams }: DashboardSidebarProps) {
                           key={team.id}
                           href={`/dashboard/teams/${team.id}`}
                           className={cn(
-                            'flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors',
+                            "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors",
                             pathname === `/dashboard/teams/${team.id}`
-                              ? 'bg-sidebar-accent text-sidebar-accent-foreground'
-                              : 'text-sidebar-foreground/70 hover:bg-sidebar-accent/50 hover:text-sidebar-foreground'
+                              ? "bg-sidebar-accent text-sidebar-accent-foreground"
+                              : "text-sidebar-foreground/70 hover:bg-sidebar-accent/50 hover:text-sidebar-foreground",
                           )}
                         >
                           <div className="flex items-center justify-center w-6 h-6 rounded bg-sidebar-accent text-xs font-medium text-sidebar-accent-foreground">
@@ -118,18 +124,18 @@ export function DashboardSidebar({ profile, teams }: DashboardSidebarProps) {
                       ))
                     ) : (
                       <p className="px-3 py-2 text-xs text-sidebar-foreground/50">
-                        {t('teams.noTeams')}
+                        {t("teams.noTeams")}
                       </p>
                     )}
                     <Button
                       variant="ghost"
                       size="sm"
-                      className="justify-start gap-2 text-sidebar-foreground/70 hover:text-sidebar-foreground"
+                      className="justify-start gap-2 text-sidebar-foreground/70  hover:bg-sidebar-accent/50 hover:text-sidebar-foreground"
                       asChild
                     >
                       <Link href="/dashboard/teams/new">
                         <Plus className="h-4 w-4" />
-                        {t('teams.createTeam')}
+                        {t("teams.createTeam")}
                       </Link>
                     </Button>
                   </CollapsibleContent>
@@ -137,7 +143,7 @@ export function DashboardSidebar({ profile, teams }: DashboardSidebarProps) {
               ) : (
                 <div className="flex flex-col gap-1 mt-1">
                   <p className="px-3 py-2 text-xs font-semibold uppercase tracking-wider text-sidebar-foreground/50">
-                    {t('teams.myTeams')}
+                    {t("teams.myTeams")}
                   </p>
                   {teams.length > 0 ? (
                     teams.map((team) => (
@@ -145,10 +151,10 @@ export function DashboardSidebar({ profile, teams }: DashboardSidebarProps) {
                         key={team.id}
                         href={`/dashboard/teams/${team.id}`}
                         className={cn(
-                          'flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors',
+                          "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors",
                           pathname === `/dashboard/teams/${team.id}`
-                            ? 'bg-sidebar-accent text-sidebar-accent-foreground'
-                            : 'text-sidebar-foreground/70 hover:bg-sidebar-accent/50 hover:text-sidebar-foreground'
+                            ? "bg-sidebar-accent text-sidebar-accent-foreground"
+                            : "text-sidebar-foreground/70 hover:bg-sidebar-accent/50 hover:text-sidebar-foreground",
                         )}
                       >
                         <div className="flex items-center justify-center w-6 h-6 rounded bg-sidebar-accent text-xs font-medium text-sidebar-accent-foreground">
@@ -159,7 +165,7 @@ export function DashboardSidebar({ profile, teams }: DashboardSidebarProps) {
                     ))
                   ) : (
                     <p className="px-3 py-2 text-xs text-sidebar-foreground/50">
-                      {t('teams.noTeams')}
+                      {t("teams.noTeams")}
                     </p>
                   )}
                 </div>
@@ -171,11 +177,13 @@ export function DashboardSidebar({ profile, teams }: DashboardSidebarProps) {
           <div className="border-t border-sidebar-border p-4">
             <div className="flex items-center gap-3">
               <div className="flex items-center justify-center w-9 h-9 rounded-full bg-sidebar-accent text-sm font-medium text-sidebar-accent-foreground">
-                {profile?.full_name?.charAt(0).toUpperCase() || profile?.email?.charAt(0).toUpperCase() || 'U'}
+                {profile?.full_name?.charAt(0).toUpperCase() ||
+                  profile?.email?.charAt(0).toUpperCase() ||
+                  "U"}
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium text-sidebar-foreground truncate">
-                  {profile?.full_name || t('common.noData')}
+                  {profile?.full_name || t("common.noData")}
                 </p>
                 <p className="text-xs text-sidebar-foreground/50 truncate">
                   {profile?.email}
@@ -186,5 +194,5 @@ export function DashboardSidebar({ profile, teams }: DashboardSidebarProps) {
         </div>
       </aside>
     </>
-  )
+  );
 }
